@@ -1,4 +1,12 @@
--- Question 1: Achieving First Normal Form (1NF)
+-- Week 7 Assignment: Database Design and Normalization
+-- Student Name: Elicah Makari
+-- Date: 21 November 2026
+
+-- ==========================================
+-- QUESTION 1: ACHIEVING FIRST NORMAL FORM (1NF)
+-- ==========================================
+
+-- Create your normalized table
 
 CREATE TABLE ProductDetail_1NF (
     OrderID INT,
@@ -7,7 +15,8 @@ CREATE TABLE ProductDetail_1NF (
     PRIMARY KEY (OrderID, Product)
 );
 
--- Insert normalized records
+-- Insert your records
+
 INSERT INTO ProductDetail_1NF (OrderID, CustomerName, Product)
 VALUES
 (101, 'John Doe', 'Laptop'),
@@ -18,18 +27,23 @@ VALUES
 (103, 'Emily Clark', 'Phone');
 
 -- Display the normalized table
+
 SELECT * FROM ProductDetail_1NF;
 
 
--- Question 2: Achieving Second Normal Form (2NF)
+-- ==========================================
+-- QUESTION 2: ACHIEVING SECOND NORMAL FORM (2NF)
+-- ==========================================
 
--- Create Orders table
+-- Create your Orders table
+
 CREATE TABLE Orders (
     OrderID INT PRIMARY KEY,
     CustomerName VARCHAR(100)
 );
 
--- Create OrderItems table
+-- Create your OrderItems table
+
 CREATE TABLE OrderItems (
     OrderID INT,
     Product VARCHAR(100),
@@ -38,14 +52,14 @@ CREATE TABLE OrderItems (
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
 
--- Insert records into Orders table
+-- Insert your records
+
 INSERT INTO Orders (OrderID, CustomerName)
 VALUES
 (101, 'John Doe'),
 (102, 'Jane Smith'),
 (103, 'Emily Clark');
 
--- Insert records into OrderItems table
 INSERT INTO OrderItems (OrderID, Product, Quantity)
 VALUES
 (101, 'Laptop', 2),
@@ -56,7 +70,9 @@ VALUES
 (103, 'Phone', 1);
 
 -- Display Orders table
+
 SELECT * FROM Orders;
 
 -- Display OrderItems table
+
 SELECT * FROM OrderItems;
