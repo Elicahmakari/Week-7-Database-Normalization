@@ -1,78 +1,58 @@
--- Week 7 Assignment: Database Design and Normalization
+-- Week 8 Assignment: MySQL Database Backup and Restore
 -- Student Name: Elicah Makari
 -- Date: 21 November 2026
 
 -- ==========================================
--- QUESTION 1: ACHIEVING FIRST NORMAL FORM (1NF)
+-- QUESTION 1: CREATING A COMPLETE DATABASE BACKUP
 -- ==========================================
 
--- Create your normalized table
+-- Command to back up the sales database:
+-- mysqldump -u root -p sales > sales_backup.sql
 
-CREATE TABLE ProductDetail_1NF (
-    OrderID INT,
-    CustomerName VARCHAR(100),
-    Product VARCHAR(100),
-    PRIMARY KEY (OrderID, Product)
-);
+-- Explanation:
+-- mysqldump is used to create a complete backup of the sales database.
+-- -u root specifies the MySQL username.
+-- -p prompts the user to enter the database password.
+-- sales specifies the database to back up.
+-- > sales_backup.sql saves the backup into a file.
 
--- Insert your records
-
-INSERT INTO ProductDetail_1NF (OrderID, CustomerName, Product)
-VALUES
-(101, 'John Doe', 'Laptop'),
-(101, 'John Doe', 'Mouse'),
-(102, 'Jane Smith', 'Tablet'),
-(102, 'Jane Smith', 'Keyboard'),
-(102, 'Jane Smith', 'Mouse'),
-(103, 'Emily Clark', 'Phone');
-
--- Display the normalized table
-
-SELECT * FROM ProductDetail_1NF;
-
+-- Regular backups are important because they protect data against
+-- accidental deletion, hardware failure, corruption and other disasters.
+-- They also make database recovery possible.
 
 -- ==========================================
--- QUESTION 2: ACHIEVING SECOND NORMAL FORM (2NF)
+-- QUESTION 2: BACKING UP ALL DATABASES
 -- ==========================================
 
--- Create your Orders table
+-- Command to back up all databases:
+-- mysqldump -u root -p --all-databases > all_databases_backup.sql
 
-CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY,
-    CustomerName VARCHAR(100)
-);
+-- Explanation:
+-- --all-databases instructs mysqldump to export every database
+-- available on the MySQL server.
+-- -u root specifies the MySQL username.
+-- -p prompts for the database password.
+-- > all_databases_backup.sql saves all database backups in one file.
 
--- Create your OrderItems table
+-- Backing up all databases before migration ensures that no important
+-- database is left behind. It helps preserve data and database
+-- structures when transferring information to a new server.
 
-CREATE TABLE OrderItems (
-    OrderID INT,
-    Product VARCHAR(100),
-    Quantity INT,
-    PRIMARY KEY (OrderID, Product),
-    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
-);
+-- ==========================================
+-- QUESTION 3: CREATING A DATA-ONLY BACKUP
+-- ==========================================
 
--- Insert your records
+-- Command to back up only the data in the sales database:
+-- mysqldump -u root -p --no-create-info sales > sales_data_backup.sql
 
-INSERT INTO Orders (OrderID, CustomerName)
-VALUES
-(101, 'John Doe'),
-(102, 'Jane Smith'),
-(103, 'Emily Clark');
+-- Explanation:
+-- --no-create-info tells mysqldump not to include CREATE TABLE statements.
+-- It exports the data using INSERT statements without exporting
+-- the table creation definitions.
+-- -u root specifies the MySQL username.
+-- -p prompts for the database password.
+-- sales specifies the database.
+-- > sales_data_backup.sql saves the data-only backup.
 
-INSERT INTO OrderItems (OrderID, Product, Quantity)
-VALUES
-(101, 'Laptop', 2),
-(101, 'Mouse', 1),
-(102, 'Tablet', 3),
-(102, 'Keyboard', 1),
-(102, 'Mouse', 2),
-(103, 'Phone', 1);
-
--- Display Orders table
-
-SELECT * FROM Orders;
-
--- Display OrderItems table
-
-SELECT * FROM OrderItems;
+-- Data-only backups are useful when restoring records into existing
+-- database tables or transferring data between database environments.
